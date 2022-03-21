@@ -58,7 +58,6 @@ class Cadastro:
             p = {'nome': pessoa.nome, 'endereco': pessoa.endereco, 'cpf': pessoa.cpf, 
                  'nascimento': pessoa.nascimento, 'senha': pessoa.senha, 'saldo': pessoa.saldo}
             self._lista.append(p)
-            print(self._lista)
             return True
         else:
             return False
@@ -90,8 +89,15 @@ class Cadastro:
                 return True
         return False
         
-    def transferir(self, cpf):
-        
-        pass
+    def transferir(self, cpf, cpf_d, valor, senha):
+        for pessoa in self._lista:
+            if pessoa['cpf'] == cpf and pessoa['senha'] == senha and pessoa['saldo'] >= float(valor):
+                for i in self._lista:
+                    if i['cpf'] == cpf_d:
+                        i['saldo'] += float(valor)
+                        pessoa['saldo'] -= float(valor)
+                        return True
+        return False
+      
 
 

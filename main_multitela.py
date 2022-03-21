@@ -5,12 +5,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from PyQt5.QtCore import QCoreApplication
 
-from cadastro import Tela_Cadastro
-from login import Tela_Login
+from Tela_cadastro import Tela_Cadastro
+from Tela_login import Tela_Login
 from Tela_inicial import Tela_Inicial
 from Tela_cliente import Tela_cliente
-from depositar import Tela_Depositar
-from sacar import Tela_Sacar
+from Tela_depositar import Tela_Depositar
+from Tela_sacar import Tela_Sacar
+from Tela_transferir import Tela_Transferir
+
+
 from classes import Pessoa
 from classes import Cadastro
 
@@ -28,7 +31,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack3 = QtWidgets.QMainWindow()
         self.stack4 = QtWidgets.QMainWindow()
         self.stack5 = QtWidgets.QMainWindow()
-        
+        self.stack6 = QtWidgets.QMainWindow()
         
         self.tela_inicial = Tela_Inicial()
         self.tela_inicial.setupUi(self.stack0)
@@ -48,13 +51,16 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_sacar =    Tela_Sacar()
         self.tela_sacar.setupUi(self.stack5)
         
+        self.tela_transferir =  Tela_Transferir()
+        self.tela_transferir.setupUi(self.stack6)
+        
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
         self.QtStack.addWidget(self.stack2)
         self.QtStack.addWidget(self.stack3)
         self.QtStack.addWidget(self.stack4)
         self.QtStack.addWidget(self.stack5)
-        
+        self.QtStack.addWidget(self.stack6)
         
         
 class Main(QMainWindow, Ui_Main):
@@ -80,7 +86,11 @@ class Main(QMainWindow, Ui_Main):
         self.tela_sacar.pushButton.clicked.connect(self.sacar)
         self.tela_sacar.pushButton_2.clicked.connect(self.voltar_cliente)
         
-    
+        self.tela_cliente.pushButton_3.clicked.connect(self.botaoTranfere)
+        self.tela_transferir.pushButton_2.clicked.connect(self.voltar_cliente)
+        self.tela_transferir.pushButton.clicked.connect(self.Tranfere)
+        
+        
     def voltar(self):
         self.QtStack.setCurrentIndex(0)
     
@@ -132,6 +142,9 @@ class Main(QMainWindow, Ui_Main):
     def botaoDeposito(self):
         self.QtStack.setCurrentIndex(4)
     
+    def botaoTranfere(self):
+        self.QtStack.setCurrentIndex(6)
+        
     def botaoSacar(self):
         self.QtStack.setCurrentIndex(5)
     
@@ -166,6 +179,25 @@ class Main(QMainWindow, Ui_Main):
             self.tela_sacar.lineEdit_3.setText('')
             self.tela_sacar.lineEdit_4.setText('')
             self.tela_sacar.lineEdit_2.setText('')
+            
+    def Tranfere(self):
+        cpf_cliente = self.tela_transferir.lineEdit_9.text()
+        cpf_destinatario = self.tela_transferir.lineEdit_3.text()
+        valor = self.tela_transferir.lineEdit_2.text()
+        senha = self.tela_transferir.lineEdit_8.text()
+        enviar = self.cad.transferir(cpf_cliente, cpf_destinatario, valor, senha)
+        if(enviar == True):
+            QMessageBox.information(None,"POOII", "Transferencia Efetuada")
+            self.tela_transferir.lineEdit_9.setText('')
+            self.tela_transferir.lineEdit_3.setText('')
+            self.tela_transferir.lineEdit_2.setText('')
+            self.tela_transferir.lineEdit_8.setText('')   
+        else:
+            QMessageBox.information(None,"POOII", "Tente novamente!")
+            self.tela_transferir.lineEdit_9.setText('')
+            self.tela_transferir.lineEdit_3.setText('')
+            self.tela_transferir.lineEdit_2.setText('')
+            self.tela_transferir.lineEdit_8.setText('') 
                         
     def abrirTelaCadastro(self):
         self.QtStack.setCurrentIndex(1)

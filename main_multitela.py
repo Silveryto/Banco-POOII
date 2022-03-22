@@ -106,8 +106,7 @@ class Main(QMainWindow, Ui_Main):
         cpf = self.tela_cadastro.lineEdit_2.text()
         nascimento = self.tela_cadastro.lineEdit_4.text()
         senha = self.tela_cadastro.lineEdit_5.text()
-        saldo = float(self.tela_cadastro.lineEdit_6.text())
-        
+        saldo = float(self.tela_cadastro.lineEdit_6.text())      
         if not(nome == '' or endereco == '' or cpf == '' or nascimento == '' or senha == ''):
             p = Pessoa(nome, endereco, cpf, nascimento, senha, saldo)
             if(self.cad.cadastra(p)):
@@ -156,10 +155,11 @@ class Main(QMainWindow, Ui_Main):
         deposito = self.tela_deposito.lineEdit_2.text()
         dep = self.cad.depositar(cpf, senha, deposito)
         if(dep == True):
-            QMessageBox.information(None,"POOII", "Deposito Efetuado! Deslogue e logue novamente")
+            QMessageBox.information(None,"POOII", "Deposito Efetuado! efetue o login novamente!")
             self.tela_deposito.lineEdit_3.setText('')
             self.tela_deposito.lineEdit_4.setText('')
             self.tela_deposito.lineEdit_2.setText('')
+            self.QtStack.setCurrentIndex(0)
         else:
             QMessageBox.information(None,"POOII", "Tente novamente!")
             self.tela_deposito.lineEdit_3.setText('')

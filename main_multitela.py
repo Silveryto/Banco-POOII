@@ -133,6 +133,8 @@ class Main(QMainWindow, Ui_Main):
             self.tela_cliente.lineEdit_2.setText(pessoa['cpf'])
             sald = pessoa['saldo']
             self.tela_cliente.lineEdit_4.setText(str(sald))
+            self.tela_login.lineEdit.setText('')
+            self.tela_login.lineEdit_2.setText('')
         else:
             QMessageBox.information(None,"POOII", "Tente novamente!")
             self.tela_login.lineEdit.setText('')

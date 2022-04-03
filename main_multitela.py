@@ -20,6 +20,7 @@ from classes import Cadastro
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
+        "função onde é feita a declaração das telas principais com seus respectivos stacks"
         Main.setObjectName('Main')
         Main.resize(640, 480)
         
@@ -65,6 +66,7 @@ class Ui_Main(QtWidgets.QWidget):
         
 class Main(QMainWindow, Ui_Main):
     def __init__(self, parent = None):
+        "aqui ocorre a ligação das telas com os botões funcionais e as chamadas das mesmas"
         super(Main, self).__init__(parent)
         self.setupUi(self)
         
@@ -101,6 +103,8 @@ class Main(QMainWindow, Ui_Main):
         exit()
     
     def botaoCadastra(self):
+        "abaixo está todas as variaveis que sao usadas para fazer o preenchimento dos dados, e logo em seguidas conectados a uma linha"
+        "e então realizada a passagem para as funções lá da parte de classes"
         nome = self.tela_cadastro.lineEdit.text()
         endereco = self.tela_cadastro.lineEdit_3.text()
         cpf = self.tela_cadastro.lineEdit_2.text()
@@ -123,6 +127,7 @@ class Main(QMainWindow, Ui_Main):
             QMessageBox.information(None, "POOII", 'Todos os valores precisam ser preenchidos')
         
     def botaoLogin(self):
+        "realizado as condições para fazer o login, onde é passado o cpf e a senha"
         cpf = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
         pessoa = self.cad.login(cpf, senha)
@@ -141,15 +146,19 @@ class Main(QMainWindow, Ui_Main):
             
             
     def botaoDeposito(self):
+        "conexão para chamar a tela de deposito"
         self.QtStack.setCurrentIndex(4)
     
     def botaoTranfere(self):
+        "conexão para chamar a tela de transderencia"
         self.QtStack.setCurrentIndex(6)
         
     def botaoSacar(self):
+        "conexão para chamar a tela de saque"
         self.QtStack.setCurrentIndex(5)
     
     def depositar(self):
+        "função para o deposito, onde passa a senha e o cpf e o valor, e entao é chamado para o metodo depositar"
         cpf = self.tela_deposito.lineEdit_4.text()
         senha = self.tela_deposito.lineEdit_3.text()
         deposito = self.tela_deposito.lineEdit_2.text()
@@ -167,6 +176,7 @@ class Main(QMainWindow, Ui_Main):
             self.tela_deposito.lineEdit_2.setText('')
             
     def sacar(self):
+        "função para o saque, onde passa a senha e o cpf e o valor, e entao é chamado para o metodo sacar"
         cpf = self.tela_sacar.lineEdit_3.text()
         senha = self.tela_sacar.lineEdit_4.text()
         sacar = self.tela_sacar.lineEdit_2.text()
@@ -183,6 +193,7 @@ class Main(QMainWindow, Ui_Main):
             self.tela_sacar.lineEdit_2.setText('')
             
     def Tranfere(self):
+        "mesma coisa que os de cima, mas para transferencia"
         cpf_cliente = self.tela_transferir.lineEdit_9.text()
         cpf_destinatario = self.tela_transferir.lineEdit_3.text()
         valor = self.tela_transferir.lineEdit_2.text()
@@ -202,9 +213,11 @@ class Main(QMainWindow, Ui_Main):
             self.tela_transferir.lineEdit_8.setText('') 
                         
     def abrirTelaCadastro(self):
+        "chama a tela de cadastro"
         self.QtStack.setCurrentIndex(1)
     
     def abrirTelaLogin(self):
+        "chama a tela de login"
         self.QtStack.setCurrentIndex(2)
 
 

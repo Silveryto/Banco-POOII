@@ -1,5 +1,6 @@
 import sys
 import os
+import mysql.connector
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
@@ -16,7 +17,7 @@ from Tela_transferir import Tela_Transferir
 
 from classes import Pessoa
 from classes import Cadastro
-
+from classes import Cadastro_Bd
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
@@ -71,6 +72,7 @@ class Main(QMainWindow, Ui_Main):
         self.setupUi(self)
         
         self.cad = Cadastro()
+        self.cad1 = Cadastro_Bd()
         self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCadastro)
         self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaLogin)
         self.tela_inicial.pushButton_3.clicked.connect(self.sair)
@@ -113,6 +115,7 @@ class Main(QMainWindow, Ui_Main):
         saldo = float(self.tela_cadastro.lineEdit_6.text())      
         if not(nome == '' or endereco == '' or cpf == '' or nascimento == '' or senha == ''):
             p = Pessoa(nome, endereco, cpf, nascimento, senha, saldo)
+            self.cad1.cadastra_db(p)
             if(self.cad.cadastra(p)):
                     QMessageBox.information(None, 'POOII', 'Cadastro Realizado')
                     self.tela_cadastro.lineEdit.setText('')
@@ -219,6 +222,8 @@ class Main(QMainWindow, Ui_Main):
     def abrirTelaLogin(self):
         "chama a tela de login"
         self.QtStack.setCurrentIndex(2)
+
+
 
 
 if __name__ == '__main__':

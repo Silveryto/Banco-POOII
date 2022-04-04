@@ -1,3 +1,5 @@
+import mysql.connector
+
 class Pessoa:
     __slots__ = ['_nome', '_endereco', '_cpf', '_nascimento', '_senha', '_saldo']
     
@@ -9,7 +11,7 @@ class Pessoa:
         self._nascimento = nascimento
         self._senha = senha
         self._saldo = saldo
-    
+
     @property
     def nome(self):
         "metodo onde retorna o proprio nome"
@@ -52,6 +54,32 @@ class Pessoa:
     def endereco(self, endereco):
         self._endereco = endereco
         
+
+class Cadastro_Bd:
+
+    def __init__(self) -> None:
+        pass
+
+    def cadastra_db(self, pessoa):
+        "metodo onde é feito o armazenamento dos dados inseridos quando criado uma classe do tipo pessoa"
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='V1nicius')
+        cursor = conexao.cursor()
+
+        nome = pessoa.nome
+        senha = pessoa.senha
+        endereco = pessoa.endereco
+        nascimento = pessoa.nascimento
+        cpf = pessoa.cpf
+        saldo = pessoa.saldo
+
+        sql = f"""CREATE TABLE IF NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
+        nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento DATE NOT NULL, saldo integer NOT NULL);"""
+
+        
+        cursor.execute(sql)
+        cursor.execute('INSERT INTO usuarios_banco(cpf, nome, senha, endereco, nascimento, saldo) VALUES (%s, %s,MD5(%s), %s, %s, %s)', (cpf, nome, senha, endereco, nascimento, saldo))
+        conexao.commit()
+        conexao.close()
 
 class Cadastro:
     __slots__ = ['_lista']

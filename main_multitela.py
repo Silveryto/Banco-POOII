@@ -1,6 +1,5 @@
 import sys
 import os
-import mysql.connector
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
@@ -17,11 +16,10 @@ from Tela_transferir import Tela_Transferir
 
 from classes import Pessoa
 from classes import Cadastro
-from classes import Cadastro_Bd
+
 
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
-        "função onde é feita a declaração das telas principais com seus respectivos stacks"
         Main.setObjectName('Main')
         Main.resize(640, 480)
         
@@ -67,30 +65,31 @@ class Ui_Main(QtWidgets.QWidget):
         
 class Main(QMainWindow, Ui_Main):
     def __init__(self, parent = None):
-        "aqui ocorre a ligação das telas com os botões funcionais e as chamadas das mesmas"
         super(Main, self).__init__(parent)
         self.setupUi(self)
         
         self.cad = Cadastro()
-        self.cad1 = Cadastro_Bd()
         self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCadastro)
         self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaLogin)
         self.tela_inicial.pushButton_3.clicked.connect(self.sair)
 
-    
+        self.tela_cadastro.pushButton.clicked.connect(self.voltar)
         self.tela_cadastro.pushButton_2.clicked.connect(self.botaoCadastra)
         self.tela_login.pushButton_2.clicked.connect(self.botaoLogin)
-        self.tela_cadastro.pushButton.clicked.connect(self.voltar)
         self.tela_login.pushButton.clicked.connect(self.voltar)
+        
+    
         self.tela_cliente.pushButton_4.clicked.connect(self.voltar)
         self.tela_cliente.pushButton_2.clicked.connect(self.botaoDeposito)
+        self.tela_cliente.pushButton.clicked.connect(self.botaoSacar)
+        self.tela_cliente.pushButton_3.clicked.connect(self.botaoTranfere)
+        
         self.tela_deposito.pushButton.clicked.connect(self.depositar)
         self.tela_deposito.pushButton_2.clicked.connect(self.voltar_cliente)
-        self.tela_cliente.pushButton.clicked.connect(self.botaoSacar)
+        
         self.tela_sacar.pushButton.clicked.connect(self.sacar)
         self.tela_sacar.pushButton_2.clicked.connect(self.voltar_cliente)
         
-        self.tela_cliente.pushButton_3.clicked.connect(self.botaoTranfere)
         self.tela_transferir.pushButton_2.clicked.connect(self.voltar_cliente)
         self.tela_transferir.pushButton.clicked.connect(self.Tranfere)
         
@@ -105,8 +104,6 @@ class Main(QMainWindow, Ui_Main):
         exit()
     
     def botaoCadastra(self):
-        "abaixo está todas as variaveis que sao usadas para fazer o preenchimento dos dados, e logo em seguidas conectados a uma linha"
-        "e então realizada a passagem para as funções lá da parte de classes"
         nome = self.tela_cadastro.lineEdit.text()
         endereco = self.tela_cadastro.lineEdit_3.text()
         cpf = self.tela_cadastro.lineEdit_2.text()
@@ -115,22 +112,14 @@ class Main(QMainWindow, Ui_Main):
         saldo = float(self.tela_cadastro.lineEdit_6.text())      
         if not(nome == '' or endereco == '' or cpf == '' or nascimento == '' or senha == ''):
             p = Pessoa(nome, endereco, cpf, nascimento, senha, saldo)
-            self.cad1.cadastra_db(p)
             if(self.cad.cadastra(p)):
                     QMessageBox.information(None, 'POOII', 'Cadastro Realizado')
-                    self.tela_cadastro.lineEdit.setText('')
-                    self.tela_cadastro.lineEdit_2.setText('')
-                    self.tela_cadastro.lineEdit_3.setText('')
-                    self.tela_cadastro.lineEdit_4.setText('')
-                    self.tela_cadastro.lineEdit_5.setText('')
-                    self.tela_cadastro.lineEdit_6.setText('')
             else:
                 QMessageBox.information(None, 'POOII', "Cpf ja cadastrado!!")
         else:
             QMessageBox.information(None, "POOII", 'Todos os valores precisam ser preenchidos')
         
     def botaoLogin(self):
-        "realizado as condições para fazer o login, onde é passado o cpf e a senha"
         cpf = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
         pessoa = self.cad.login(cpf, senha)
@@ -149,19 +138,16 @@ class Main(QMainWindow, Ui_Main):
             
             
     def botaoDeposito(self):
-        "conexão para chamar a tela de deposito"
         self.QtStack.setCurrentIndex(4)
+        
     
     def botaoTranfere(self):
-        "conexão para chamar a tela de transderencia"
         self.QtStack.setCurrentIndex(6)
         
     def botaoSacar(self):
-        "conexão para chamar a tela de saque"
         self.QtStack.setCurrentIndex(5)
     
     def depositar(self):
-        "função para o deposito, onde passa a senha e o cpf e o valor, e entao é chamado para o metodo depositar"
         cpf = self.tela_deposito.lineEdit_4.text()
         senha = self.tela_deposito.lineEdit_3.text()
         deposito = self.tela_deposito.lineEdit_2.text()
@@ -179,13 +165,12 @@ class Main(QMainWindow, Ui_Main):
             self.tela_deposito.lineEdit_2.setText('')
             
     def sacar(self):
-        "função para o saque, onde passa a senha e o cpf e o valor, e entao é chamado para o metodo sacar"
         cpf = self.tela_sacar.lineEdit_3.text()
         senha = self.tela_sacar.lineEdit_4.text()
         sacar = self.tela_sacar.lineEdit_2.text()
         saque = self.cad.sacar(cpf, senha, sacar)
         if(saque == True):
-            QMessageBox.information(None,"POOII", "Saque Efetuado! Deslogue e logue novamente")
+            QMessageBox.information(None,"POOII", "Saque Efetuado!")
             self.tela_sacar.lineEdit_3.setText('')
             self.tela_sacar.lineEdit_4.setText('')
             self.tela_sacar.lineEdit_2.setText('')
@@ -196,7 +181,6 @@ class Main(QMainWindow, Ui_Main):
             self.tela_sacar.lineEdit_2.setText('')
             
     def Tranfere(self):
-        "mesma coisa que os de cima, mas para transferencia"
         cpf_cliente = self.tela_transferir.lineEdit_9.text()
         cpf_destinatario = self.tela_transferir.lineEdit_3.text()
         valor = self.tela_transferir.lineEdit_2.text()
@@ -216,14 +200,10 @@ class Main(QMainWindow, Ui_Main):
             self.tela_transferir.lineEdit_8.setText('') 
                         
     def abrirTelaCadastro(self):
-        "chama a tela de cadastro"
         self.QtStack.setCurrentIndex(1)
     
     def abrirTelaLogin(self):
-        "chama a tela de login"
         self.QtStack.setCurrentIndex(2)
-
-
 
 
 if __name__ == '__main__':

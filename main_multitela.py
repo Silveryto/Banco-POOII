@@ -124,17 +124,12 @@ class Main(QMainWindow, Ui_Main):
         senha = self.tela_login.lineEdit_2.text()
         pessoa = self.cad.login(cpf, senha)
         if(pessoa != None):
+            QMessageBox.information(None,"POOII", "login efetuado!")
             self.QtStack.setCurrentIndex(3)
             self.tela_cliente.lineEdit.setText(pessoa['nome'])
-            self.tela_cliente.lineEdit_2.setText(pessoa['cpf'])
-            sald = pessoa['saldo']
-            self.tela_cliente.lineEdit_4.setText(str(sald))
-            self.tela_login.lineEdit.setText('')
-            self.tela_login.lineEdit_2.setText('')
         else:
-            QMessageBox.information(None,"POOII", "Tente novamente!")
-            self.tela_login.lineEdit.setText('')
-            self.tela_login.lineEdit_2.setText('') 
+            QMessageBox.information(None,"POOII", "login nao efetuado!") 
+
             
             
     def botaoDeposito(self):

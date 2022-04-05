@@ -1,3 +1,5 @@
+from asyncio.windows_events import NULL
+from sqlite3 import connect
 import mysql.connector
 import asyncio
 
@@ -55,7 +57,7 @@ class Cadastro:
         pass
     
     def cadastra(self, pessoa):
-            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
+            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
             cursor = conexao.cursor()
             sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
             nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
@@ -69,18 +71,28 @@ class Cadastro:
                 conexao.commit()
                 conexao.close()
                 return False
-                
-    def busca(self, cpf):
-        for lp in self._lista:
-            if lp['cpf'] == cpf:
-                return lp
-        return None 
+                 
         
     def login(self, cpf, senha):
-        for pessoa in self._lista:
-            if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
-                return pessoa
-        return None
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+        cursor = conexao.cursor()
+        
+        
+        try:
+            cursor.execute('SELECT * FROM usuarios_banco WHERE cpf = %s AND senha = MD5(%s)', (cpf, senha))
+            resultado = cursor.fetchone()
+            conexao.commit()
+            conexao.close()
+        except:
+            print("erro")
+            conexao.close()
+
+        if (f'MD5({senha})') == resultado[0][0]:
+                return True
+        else:
+            return False
+            
+            
         
     def sacar(self, cpf,senha, sacar):
        for pessoa in self._lista:

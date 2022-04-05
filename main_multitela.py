@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import sys
 import os
 import mysql.connector
@@ -149,25 +150,19 @@ class Main(QMainWindow, Ui_Main):
         cpf = self.tela_deposito.lineEdit_4.text()
         senha = self.tela_deposito.lineEdit_3.text()
         deposito = self.tela_deposito.lineEdit_2.text()
-        dep = self.cad.deposito(cpf, senha, deposito) 
-        if(dep == True):
-            QMessageBox.information(None,"POOII", "Saque Efetuado!")
-            pessoa = self.cad.login(cpf, senha)
-            if(pessoa != None):
-                self.QtStack.setCurrentIndex(3)
-                self.tela_cliente.lineEdit.setText(pessoa[0][1])
-                self.tela_cliente.lineEdit_2.setText(pessoa[0][0])
-                saldo = str(pessoa[0][5])
-                self.tela_cliente.lineEdit_4.setText(saldo)       
-            else:
-                QMessageBox.information(None,"POOII", "Tente novamente!")
-                self.tela_login.lineEdit.setText('')
-                self.tela_login.lineEdit_2.setText('') 
+        dep = self.cad.deposito(cpf, senha, deposito)
+        
+        pessoa = self.cad.login(cpf, senha)
+        if(pessoa != None):
+            self.tela_cliente.lineEdit.setText(pessoa[0][1])
+            self.tela_cliente.lineEdit_2.setText(pessoa[0][0])
+            saldo = str(pessoa[0][5])
+            self.tela_cliente.lineEdit_4.setText(saldo)       
         else:
             QMessageBox.information(None,"POOII", "Tente novamente!")
-            self.tela_sacar.lineEdit_3.setText('')
-            self.tela_sacar.lineEdit_4.setText('')
-            self.tela_sacar.lineEdit_2.setText('') 
+            self.tela_login.lineEdit.setText('')
+            self.tela_login.lineEdit_2.setText('')
+            
             
     def sacar(self):
         cpf = self.tela_sacar.lineEdit_3.text()
@@ -198,15 +193,20 @@ class Main(QMainWindow, Ui_Main):
     def Tranfere(self):
         cpf_cliente = self.tela_transferir.lineEdit_9.text()
         cpf_destinatario = self.tela_transferir.lineEdit_3.text()
-        valor = self.tela_transferir.lineEdit_2.text()
+        valor = float(self.tela_transferir.lineEdit_2.text())
         senha = self.tela_transferir.lineEdit_8.text()
         enviar = self.cad.transferir(cpf_cliente, cpf_destinatario, valor, senha)
-        if(enviar == True):
+        if(enviar != NULL):
             QMessageBox.information(None,"POOII", "Transferencia Efetuada")
-            self.tela_transferir.lineEdit_9.setText('')
-            self.tela_transferir.lineEdit_3.setText('')
-            self.tela_transferir.lineEdit_2.setText('')
-            self.tela_transferir.lineEdit_8.setText('')   
+            print(enviar)
+            pessoa = self.cad.login(cpf_cliente, senha)
+            if(pessoa != None):
+                self.QtStack.setCurrentIndex(3)
+                self.tela_cliente.lineEdit.setText(pessoa[0][1])
+                self.tela_cliente.lineEdit_2.setText(pessoa[0][0])
+                saldo = str(pessoa[0][5])
+                self.tela_cliente.lineEdit_4.setText(saldo)
+             
         else:
             QMessageBox.information(None,"POOII", "Tente novamente!")
             self.tela_transferir.lineEdit_9.setText('')

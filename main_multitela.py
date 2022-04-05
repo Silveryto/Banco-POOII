@@ -151,17 +151,21 @@ class Main(QMainWindow, Ui_Main):
         senha = self.tela_deposito.lineEdit_3.text()
         deposito = self.tela_deposito.lineEdit_2.text()
         dep = self.cad.deposito(cpf, senha, deposito)
-        
-        pessoa = self.cad.login(cpf, senha)
-        if(pessoa != None):
-            self.tela_cliente.lineEdit.setText(pessoa[0][1])
-            self.tela_cliente.lineEdit_2.setText(pessoa[0][0])
-            saldo = str(pessoa[0][5])
-            self.tela_cliente.lineEdit_4.setText(saldo)       
+        if(dep != None):
+            QMessageBox.information(None, 'POOII', 'Deposito Realizado')
+
+            pessoa = self.cad.login(cpf, senha)
+            if(pessoa != None):
+                self.tela_cliente.lineEdit.setText(pessoa[0][1])
+                self.tela_cliente.lineEdit_2.setText(pessoa[0][0])
+                saldo = str(pessoa[0][5])
+                self.tela_cliente.lineEdit_4.setText(saldo)       
+            else:
+                QMessageBox.information(None,"POOII", "Tente novamente!")
+                self.tela_login.lineEdit.setText('')
+                self.tela_login.lineEdit_2.setText('')
         else:
             QMessageBox.information(None,"POOII", "Tente novamente!")
-            self.tela_login.lineEdit.setText('')
-            self.tela_login.lineEdit_2.setText('')
             
             
     def sacar(self):
@@ -198,7 +202,6 @@ class Main(QMainWindow, Ui_Main):
         enviar = self.cad.transferir(cpf_cliente, cpf_destinatario, valor, senha)
         if(enviar != NULL):
             QMessageBox.information(None,"POOII", "Transferencia Efetuada")
-            print(enviar)
             pessoa = self.cad.login(cpf_cliente, senha)
             if(pessoa != None):
                 self.QtStack.setCurrentIndex(3)
@@ -208,11 +211,7 @@ class Main(QMainWindow, Ui_Main):
                 self.tela_cliente.lineEdit_4.setText(saldo)
              
         else:
-            QMessageBox.information(None,"POOII", "Tente novamente!")
-            self.tela_transferir.lineEdit_9.setText('')
-            self.tela_transferir.lineEdit_3.setText('')
-            self.tela_transferir.lineEdit_2.setText('')
-            self.tela_transferir.lineEdit_8.setText('') 
+            QMessageBox.information(None,"POOII", "Tente novamente!") 
                         
     def abrirTelaCadastro(self):
         self.QtStack.setCurrentIndex(1)

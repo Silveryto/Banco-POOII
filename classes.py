@@ -1,3 +1,4 @@
+from tkinter.tix import Tree
 from unittest import result
 import mysql.connector
 
@@ -106,8 +107,10 @@ class Cadastro():
             cursor.execute("UPDATE usuarios_banco  SET saldo = {} WHERE cpf = {} ".format(d, l))
             conexao.commit()
             conexao.close()
+            return True
         else:
             print("Deposito nao efetuado")
+            return False
             
     
     def sacar(self, cpf,senha, sacar):
@@ -139,7 +142,7 @@ class Cadastro():
         cursor = conexao.cursor()
         valor1 = float(retorno[0][5])
         if (valor <= valor1): 
-            d = Cadastro.sacar(self, cpf, senha, valor)
+            Cadastro.sacar(self, cpf, senha, valor)
             cpf_iv = "SELECT * FROM usuarios_banco WHERE cpf = '{}'".format(cpf_d)
             cursor.execute(cpf_iv)
             result = cursor.fetchall()
@@ -147,7 +150,7 @@ class Cadastro():
             cursor.execute('UPDATE usuarios_banco SET saldo = %s WHERE cpf = %s', (f, cpf_d))
             conexao.commit()
             conexao.close()
-            return result
+            return True
         else:
             return False
 

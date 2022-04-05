@@ -1,3 +1,4 @@
+from unittest import result
 import mysql.connector
 
 class Pessoa:
@@ -94,16 +95,19 @@ class Cadastro():
     def deposito(self, cpf, senha, deposito):
         conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
         cursor = conexao.cursor()
+        sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
+        nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
+        cursor.execute(sql)
         login = Cadastro.login(self, cpf, senha) 
-        if(login != False):
+        
+        if(login != None):
             d = (float(deposito) + float(login[0][5]))
             l = login[0][0]
             cursor.execute("UPDATE usuarios_banco  SET saldo = {} WHERE cpf = {} ".format(d, l))
             conexao.commit()
             conexao.close()
-            return True
         else:
-            return False
+            print("Deposito nao efetuado")
             
     
     def sacar(self, cpf,senha, sacar):
@@ -120,16 +124,41 @@ class Cadastro():
         else:
             return False
 
+
+
+       #for pessoa in self._lista:
+            #if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
+                #if pessoa['saldo'] >= float(sacar):
+                    #pessoa['saldo'] -= float(sacar)
+                    #return True
+       #return False
     
     def transferir(self, cpf, cpf_d, valor, senha):
-        for pessoa in self._lista:
-            if pessoa['cpf'] == cpf and pessoa['senha'] == senha and pessoa['saldo'] >= float(valor):
-                for i in self._lista:
-                    if i['cpf'] == cpf_d:
-                        i['saldo'] += float(valor)
-                        pessoa['saldo'] -= float(valor)
-                        return True
-        return False
+        retorno = Cadastro.login(self, cpf, senha)
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+        cursor = conexao.cursor()
+        valor1 = float(retorno[0][5])
+        if (valor <= valor1): 
+            d = Cadastro.sacar(self, cpf, senha, valor)
+            cpf_iv = "SELECT * FROM usuarios_banco WHERE cpf = '{}'".format(cpf_d)
+            cursor.execute(cpf_iv)
+            result = cursor.fetchall()
+            f = (float(result[0][5]) + float(valor))
+            cursor.execute('UPDATE usuarios_banco SET saldo = %s WHERE cpf = %s', (f, cpf_d))
+            conexao.commit()
+            conexao.close()
+            return result
+        else:
+            return False
+
+        #for pessoa in self._lista:
+            #if pessoa['cpf'] == cpf and pessoa['senha'] == senha and pessoa['saldo'] >= float(valor):
+                #for i in self._lista:
+                    #if i['cpf'] == cpf_d:
+                        #i['saldo'] += float(valor)
+                        #pessoa['saldo'] -= float(valor)
+                        #return True
+        #return False
     
     def Historico(self):  
         pass

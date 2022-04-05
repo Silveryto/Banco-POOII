@@ -1,7 +1,4 @@
-from asyncio.windows_events import NULL
-from sqlite3 import connect
 import mysql.connector
-import asyncio
 
 class Pessoa:
     __slots__ = ['_nome', '_endereco', '_cpf', '_nascimento', '_senha', '_saldo']
@@ -51,19 +48,19 @@ class Pessoa:
         self._endereco = endereco
         
 
-class Cadastro:
-   
+class Cadastro():
+
     def __init__(self):
         pass
     
     def cadastra(self, pessoa):
-            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
             cursor = conexao.cursor()
             sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
             nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
             cursor.execute(sql)
             try:
-                cursor.execute('INSERT INTO usuarios_banco(cpf, nome, senha, endereco, nascimento, saldo) VALUES (%s, %s,MD5(%s), %s, %s, %s)', (pessoa.cpf, pessoa.nome, pessoa.senha, pessoa.endereco, pessoa.nascimento, pessoa.saldo))
+                cursor.execute('INSERT INTO usuarios_banco(cpf, nome, senha, endereco, nascimento, saldo) VALUES (%s, %s,%s, %s, %s, %s)', (pessoa.cpf, pessoa.nome, pessoa.senha, pessoa.endereco, pessoa.nascimento, pessoa.saldo))
                 conexao.commit()
                 conexao.close()
                 return True
@@ -71,29 +68,28 @@ class Cadastro:
                 conexao.commit()
                 conexao.close()
                 return False
-                 
-        
+                
     def login(self, cpf, senha):
-        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
         cursor = conexao.cursor()
-        
-        
+        sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
+        nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
+        cursor.execute(sql)
         try:
-            cursor.execute('SELECT * FROM usuarios_banco WHERE cpf = %s AND senha = MD5(%s)', (cpf, senha))
-            resultado = cursor.fetchone()
-            conexao.commit()
-            conexao.close()
+            cpf_v = "SELECT * FROM usuarios_banco WHERE cpf ='{}'".format(cpf)
+            cpf_senha = "SELECT * FROM usuarios_banco where senha ='{}'".format(senha)
+            cursor.execute(cpf_v)
+            resultado = cursor.fetchall()
+            cursor.execute(cpf_senha)
+            result = cursor.fetchall()
+            
+            if(len(resultado) != 0 and len(result) != 0):
+                return resultado
+            else:
+                return False
         except:
-            print("erro")
-            conexao.close()
-
-        if (f'MD5({senha})') == resultado[0][0]:
-                return True
-        else:
             return False
-            
-            
-        
+    
     def sacar(self, cpf,senha, sacar):
        for pessoa in self._lista:
             if pessoa['cpf'] == cpf and pessoa['senha'] == senha:

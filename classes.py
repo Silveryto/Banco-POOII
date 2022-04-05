@@ -54,7 +54,7 @@ class Cadastro():
         pass
     
     def cadastra(self, pessoa):
-            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
+            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
             cursor = conexao.cursor()
             sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
             nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
@@ -70,7 +70,7 @@ class Cadastro():
                 return False
                 
     def login(self, cpf, senha):
-        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
         cursor = conexao.cursor()
         sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
         nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
@@ -91,12 +91,27 @@ class Cadastro():
             return False
     
     def sacar(self, cpf,senha, sacar):
-       for pessoa in self._lista:
-            if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
-                if pessoa['saldo'] >= float(sacar):
-                    pessoa['saldo'] -= float(sacar)
-                    return True
-       return False
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+        cursor = conexao.cursor()
+        retorno = Cadastro.login(self, cpf, senha)
+        if retorno != False:
+            d = (float(retorno[0][5]) - float(sacar))
+            l = retorno[0][0]
+            cursor.execute('UPDATE usuarios_banco SET saldo = %s WHERE cpf = %s', (d, l))
+            conexao.commit()
+            conexao.close()
+            return True
+        else:
+            return False
+
+
+
+       #for pessoa in self._lista:
+            #if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
+                #if pessoa['saldo'] >= float(sacar):
+                    #pessoa['saldo'] -= float(sacar)
+                    #return True
+       #return False
     
     def depositar(self, cpf, senha, deposito):
         for pessoa in self._lista:

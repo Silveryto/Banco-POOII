@@ -87,6 +87,7 @@ class Main(QMainWindow, Ui_Main):
         self.tela_deposito.pushButton.clicked.connect(self.depositar)
         self.tela_deposito.pushButton_2.clicked.connect(self.voltar_cliente)
         
+        
         self.tela_sacar.pushButton.clicked.connect(self.sacar)
         self.tela_sacar.pushButton_2.clicked.connect(self.voltar_cliente)
         
@@ -138,7 +139,6 @@ class Main(QMainWindow, Ui_Main):
     def botaoDeposito(self):
         self.QtStack.setCurrentIndex(4)
         
-    
     def botaoTranfere(self):
         self.QtStack.setCurrentIndex(6)
         
@@ -149,18 +149,19 @@ class Main(QMainWindow, Ui_Main):
         cpf = self.tela_deposito.lineEdit_4.text()
         senha = self.tela_deposito.lineEdit_3.text()
         deposito = self.tela_deposito.lineEdit_2.text()
-        dep = self.cad.depositar(cpf, senha, deposito)
-        if(dep == True):
-            QMessageBox.information(None,"POOII", "Deposito Efetuado! efetue o login novamente!")
-            self.tela_deposito.lineEdit_3.setText('')
-            self.tela_deposito.lineEdit_4.setText('')
-            self.tela_deposito.lineEdit_2.setText('')
-            self.QtStack.setCurrentIndex(0)
+        dep = self.cad.deposito(cpf, senha, deposito)
+        
+        pessoa = self.cad.login(cpf, senha)
+        if(pessoa != None):
+            self.tela_cliente.lineEdit.setText(pessoa[0][1])
+            self.tela_cliente.lineEdit_2.setText(pessoa[0][0])
+            saldo = str(pessoa[0][5])
+            self.tela_cliente.lineEdit_4.setText(saldo)       
         else:
             QMessageBox.information(None,"POOII", "Tente novamente!")
-            self.tela_deposito.lineEdit_3.setText('')
-            self.tela_deposito.lineEdit_4.setText('')
-            self.tela_deposito.lineEdit_2.setText('')
+            self.tela_login.lineEdit.setText('')
+            self.tela_login.lineEdit_2.setText('')
+            
             
     def sacar(self):
         cpf = self.tela_sacar.lineEdit_3.text()
@@ -169,19 +170,9 @@ class Main(QMainWindow, Ui_Main):
         saque = self.cad.sacar(cpf, senha, sacar)
         if(saque == True):
             QMessageBox.information(None,"POOII", "Saque Efetuado!")
-            pessoa = self.cad.login(cpf, senha)
-            if(pessoa != None):
-                self.QtStack.setCurrentIndex(3)
-                self.tela_cliente.lineEdit.setText(pessoa[0][1])
-                self.tela_cliente.lineEdit_2.setText(pessoa[0][0])
-                saldo = str(pessoa[0][5])
-                self.tela_cliente.lineEdit_4.setText(saldo)       
-            else:
-                QMessageBox.information(None,"POOII", "Tente novamente!")
-                self.tela_login.lineEdit.setText('')
-                self.tela_login.lineEdit_2.setText('') 
-            
-            
+            self.tela_sacar.lineEdit_3.setText('')
+            self.tela_sacar.lineEdit_4.setText('')
+            self.tela_sacar.lineEdit_2.setText('')
         else:
             QMessageBox.information(None,"POOII", "Tente novamente!")
             self.tela_sacar.lineEdit_3.setText('')

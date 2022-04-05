@@ -54,7 +54,7 @@ class Cadastro():
         pass
     
     def cadastra(self, pessoa):
-            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+            conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
             cursor = conexao.cursor()
             sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
             nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
@@ -70,7 +70,7 @@ class Cadastro():
                 return False
                 
     def login(self, cpf, senha):
-        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
         cursor = conexao.cursor()
         sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
         nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
@@ -90,36 +90,34 @@ class Cadastro():
         except:
             return False
     
-    def sacar(self, cpf,senha, sacar):
-        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
+    
+    def deposito(self, cpf, senha, deposito):
+        conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='Ss?1159753')
         cursor = conexao.cursor()
-        retorno = Cadastro.login(self, cpf, senha)
-        if retorno != False:
-            d = (float(retorno[0][5]) - float(sacar))
-            l = retorno[0][0]
-            cursor.execute('UPDATE usuarios_banco SET saldo = %s WHERE cpf = %s', (d, l))
+        sql = """CREATE TABLE if NOT EXISTS usuarios_banco(cpf VARCHAR(11) PRIMARY KEY,
+        nome text NOT NULL, senha VARCHAR(32) NOT NULL, endereco text NOT NULL, nascimento text NOT NULL, saldo float NOT NULL);"""
+        cursor.execute(sql)
+        login = Cadastro.login(self, cpf, senha) 
+        
+        if(login != None):
+            d = (float(deposito) + float(login[0][5]))
+            l = login[0][0]
+            cursor.execute("UPDATE usuarios_banco  SET saldo = {} WHERE cpf = {} ".format(d, l))
             conexao.commit()
             conexao.close()
-            return True
         else:
-            return False
-
-
-
-       #for pessoa in self._lista:
-            #if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
-                #if pessoa['saldo'] >= float(sacar):
-                    #pessoa['saldo'] -= float(sacar)
-                    #return True
-       #return False
+            print("Deposito nao efetuado")
+            
     
-    def depositar(self, cpf, senha, deposito):
+    def sacar(self, cpf,senha, sacar):
+     
         for pessoa in self._lista:
-            if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
-                pessoa['saldo'] += float(deposito)
-                return True
+                if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
+                    if pessoa['saldo'] >= float(sacar):
+                        pessoa['saldo'] -= float(sacar)
+                        return True
         return False
-        
+    
     def transferir(self, cpf, cpf_d, valor, senha):
         for pessoa in self._lista:
             if pessoa['cpf'] == cpf and pessoa['senha'] == senha and pessoa['saldo'] >= float(valor):

@@ -125,7 +125,7 @@ class Main(QMainWindow, Ui_Main):
         cpf = self.tela_login.lineEdit.text()
         senha = self.tela_login.lineEdit_2.text()
         pessoa = self.cad.login(cpf, senha)
-        if(pessoa != None):
+        if(pessoa):
             self.QtStack.setCurrentIndex(3)
             self.tela_cliente.lineEdit.setText(pessoa[0][1])
             self.tela_cliente.lineEdit_2.setText(pessoa[0][0])

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(66, 132, 198)
+</string>
+  </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -34,11 +38,14 @@
   <widget class="QLineEdit" name="lineEdit_2">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>180</x>
      <y>120</y>
      <width>251</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
    </property>
    <property name="text">
     <string/>
@@ -47,7 +54,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>120</x>
      <y>120</y>
      <width>47</width>
      <height>13</height>
@@ -57,6 +64,9 @@
     <font>
      <pointsize>12</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
    </property>
    <property name="text">
     <string>Enviar:</string>
@@ -71,6 +81,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
+   </property>
    <property name="text">
     <string>Enviar</string>
    </property>
@@ -84,6 +97,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
+   </property>
    <property name="text">
     <string>&lt;&lt;Voltar</string>
    </property>
@@ -91,19 +107,22 @@
   <widget class="QLineEdit" name="lineEdit_3">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>180</x>
      <y>80</y>
      <width>251</width>
      <height>20</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
+   </property>
   </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>50</x>
      <y>80</y>
-     <width>141</width>
+     <width>121</width>
      <height>16</height>
     </rect>
    </property>
@@ -111,6 +130,9 @@
     <font>
      <pointsize>12</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
    </property>
    <property name="text">
     <string>CPF_destinatario:</string>
@@ -148,6 +170,9 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
+   </property>
    <property name="text">
     <string>Sua_senha:</string>
    </property>
@@ -166,6 +191,9 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
+   </property>
    <property name="text">
     <string>Seu_CPF:</string>
    </property>
@@ -179,6 +207,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_9">
    <property name="geometry">
@@ -188,6 +219,9 @@
      <width>231</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
    </property>
   </widget>
  </widget>

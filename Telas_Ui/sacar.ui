@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(66, 132, 198)
+</string>
+  </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -35,20 +39,26 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>140</y>
+     <y>130</y>
      <width>113</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>190</y>
+     <y>170</y>
      <width>75</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
    </property>
    <property name="text">
     <string>Sacar</string>
@@ -58,8 +68,8 @@
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>140</y>
-     <width>71</width>
+     <y>130</y>
+     <width>41</width>
      <height>20</height>
     </rect>
    </property>
@@ -67,6 +77,9 @@
     <font>
      <pointsize>12</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
    </property>
    <property name="text">
     <string>Sacar:</string>
@@ -86,6 +99,9 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
+   </property>
    <property name="text">
     <string>Cpf:</string>
    </property>
@@ -104,6 +120,9 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
+   </property>
    <property name="text">
     <string>Senha:</string>
    </property>
@@ -117,6 +136,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_4">
    <property name="geometry">
@@ -127,15 +149,21 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255)</string>
+   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>230</y>
+     <y>210</y>
      <width>75</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255)</string>
    </property>
    <property name="text">
     <string>&lt;&lt;Voltar</string>

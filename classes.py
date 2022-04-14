@@ -104,7 +104,7 @@ class Cadastro():
         if(login != None):
             d = (float(deposito) + float(login[0][5]))
             l = login[0][0]
-            cursor.execute("UPDATE usuarios_banco  SET saldo = {} WHERE cpf = {} ".format(d, l))
+            cursor.execute("UPDATE usuarios_banco  SET saldo = %s WHERE cpf = %s ", (d, l))
             conexao.commit()
             conexao.close()
             return True
@@ -117,25 +117,20 @@ class Cadastro():
         conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
         cursor = conexao.cursor()
         retorno = Cadastro.login(self, cpf, senha)
+        
         if retorno != False:
-            d = (float(retorno[0][5]) - float(sacar))
-            l = retorno[0][0]
-            cursor.execute('UPDATE usuarios_banco SET saldo = %s WHERE cpf = %s', (d, l))
-            conexao.commit()
-            conexao.close()
-            return True
+            if float(retorno[0][5]) >=  float(sacar):
+                d = (float(retorno[0][5]) - float(sacar))
+                l = retorno[0][0]
+                cursor.execute('UPDATE usuarios_banco SET saldo = %s WHERE cpf = %s', (d, l))
+                conexao.commit()
+                conexao.close()
+                return True
+            else:
+                return False
         else:
             return False
 
-
-
-       #for pessoa in self._lista:
-            #if pessoa['cpf'] == cpf and pessoa['senha'] == senha:
-                #if pessoa['saldo'] >= float(sacar):
-                    #pessoa['saldo'] -= float(sacar)
-                    #return True
-       #return False
-    
     def transferir(self, cpf, cpf_d, valor, senha):
         retorno = Cadastro.login(self, cpf, senha)
         conexao = mysql.connector.connect(host='localhost', database='banco', user='root', passwd='vinicius12')
@@ -153,17 +148,4 @@ class Cadastro():
             return True
         else:
             return False
-
-        #for pessoa in self._lista:
-            #if pessoa['cpf'] == cpf and pessoa['senha'] == senha and pessoa['saldo'] >= float(valor):
-                #for i in self._lista:
-                    #if i['cpf'] == cpf_d:
-                        #i['saldo'] += float(valor)
-                        #pessoa['saldo'] -= float(valor)
-                        #return True
-        #return False
-    
-    def Historico(self):  
-        pass
-
 

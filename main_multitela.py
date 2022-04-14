@@ -5,6 +5,8 @@ import mysql.connector
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
 from PyQt5.QtCore import QCoreApplication
+from PyQt5 import QtGui
+
 
 from Tela_cadastro import Tela_Cadastro
 from Tela_login import Tela_Login
@@ -13,7 +15,7 @@ from Tela_cliente import Tela_cliente
 from Tela_depositar import Tela_Depositar
 from Tela_sacar import Tela_Sacar
 from Tela_transferir import Tela_Transferir
-
+from Tela_extrato import Tela_extrato
 
 from classes import Pessoa
 from classes import Cadastro
@@ -33,6 +35,8 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack4 = QtWidgets.QMainWindow()
         self.stack5 = QtWidgets.QMainWindow()
         self.stack6 = QtWidgets.QMainWindow()
+        self.stack7 = QtWidgets.QMainWindow()
+        
         
         self.tela_inicial = Tela_Inicial()
         self.tela_inicial.setupUi(self.stack0)
@@ -49,11 +53,14 @@ class Ui_Main(QtWidgets.QWidget):
         self.tela_deposito = Tela_Depositar()
         self.tela_deposito.setupUi(self.stack4)
         
-        self.tela_sacar =    Tela_Sacar()
+        self.tela_sacar =   Tela_Sacar()
         self.tela_sacar.setupUi(self.stack5)
         
         self.tela_transferir =  Tela_Transferir()
         self.tela_transferir.setupUi(self.stack6)
+        
+        self.tela_extrato =  Tela_extrato()
+        self.tela_extrato.setupUi(self.stack7)
         
         self.QtStack.addWidget(self.stack0)
         self.QtStack.addWidget(self.stack1)
@@ -62,6 +69,8 @@ class Ui_Main(QtWidgets.QWidget):
         self.QtStack.addWidget(self.stack4)
         self.QtStack.addWidget(self.stack5)
         self.QtStack.addWidget(self.stack6)
+        self.QtStack.addWidget(self.stack7)
+        
         
         
 class Main(QMainWindow, Ui_Main):
@@ -70,8 +79,9 @@ class Main(QMainWindow, Ui_Main):
         self.setupUi(self)
         
         self.cad = Cadastro()
-        self.tela_inicial.pushButton.clicked.connect(self.abrirTelaCadastro)
-        self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaLogin)
+        
+        self.tela_inicial.pushButton.clicked.connect(self.abrirTelaLogin)
+        self.tela_inicial.pushButton_2.clicked.connect(self.abrirTelaCadastro)
         self.tela_inicial.pushButton_3.clicked.connect(self.sair)
 
         self.tela_cadastro.pushButton.clicked.connect(self.voltar)
@@ -84,6 +94,9 @@ class Main(QMainWindow, Ui_Main):
         self.tela_cliente.pushButton_2.clicked.connect(self.botaoDeposito)
         self.tela_cliente.pushButton.clicked.connect(self.botaoSacar)
         self.tela_cliente.pushButton_3.clicked.connect(self.botaoTranfere)
+        self.tela_cliente.pushButton_3.clicked.connect(self.botaoTranfere)
+        self.tela_cliente.pushButton_5.clicked.connect(self.Extrato)
+        
         
         self.tela_deposito.pushButton.clicked.connect(self.depositar)
         self.tela_deposito.pushButton_2.clicked.connect(self.voltar_cliente)
@@ -95,6 +108,7 @@ class Main(QMainWindow, Ui_Main):
         self.tela_transferir.pushButton_2.clicked.connect(self.voltar_cliente)
         self.tela_transferir.pushButton.clicked.connect(self.Tranfere)
         
+        self.tela_extrato.pushButton.clicked.connect(self.voltar_cliente)
         
     def voltar(self):
         self.QtStack.setCurrentIndex(0)
@@ -218,6 +232,10 @@ class Main(QMainWindow, Ui_Main):
     
     def abrirTelaLogin(self):
         self.QtStack.setCurrentIndex(2)
+    
+    def Extrato(self):
+        self.QtStack.setCurrentIndex(7)
+        pass
 
 
 if __name__ == '__main__':
